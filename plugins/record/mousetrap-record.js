@@ -58,6 +58,7 @@
      */
     function _handleKey(character, modifiers, e) {
         var self = this;
+        var i;
 
         if (!self.recording) {
             _origHandleKey.apply(self, arguments);
@@ -65,7 +66,10 @@
         }
 
         // remember this character if we're currently recording a sequence
-        if (e.type == 'keydown') {
+        if (e.type === 'keydown') {
+            // to record shortcuts handled by the browser (mod+s ...)
+            e.preventDefault();
+
             if (character.length === 1 && _recordedCharacterKey) {
                 _recordCurrentCombo();
             }
@@ -77,7 +81,7 @@
 
         // once a key is released, all keys that were held down at the time
         // count as a keypress
-        } else if (e.type == 'keyup' && _currentRecordedKeys.length > 0) {
+        } else if (e.type === 'keyup' && _currentRecordedKeys.length > 0) {
             _recordCurrentCombo();
         }
     }
@@ -176,7 +180,7 @@
      */
     function _restartRecordTimer() {
         clearTimeout(_recordTimer);
-        _recordTimer = setTimeout(_finishRecording, 1000);
+        _recordTimer = setTimeout(_finishRecording, 400);
     }
 
     /**
