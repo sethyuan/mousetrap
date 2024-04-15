@@ -199,6 +199,16 @@
         };
     };
 
+    Mousetrap.prototype.stopRecord = function() {
+        var self = this;
+        self.recording = false;
+
+        // reset all recorded state
+        _recordedSequence = [];
+        _recordedSequenceCallback = null;
+        _currentRecordedKeys = [];
+    }
+
     Mousetrap.prototype.handleKey = function() {
         var self = this;
         _handleKey.apply(self, arguments);
